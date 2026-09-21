@@ -22,8 +22,6 @@ TOKEN : {
   | < UNTIL: "until" >
   | < READ: "read" >
   | < WRITE: "write" >
-  | < REPEAT: "reapeat" >
-  | < UNTIL: "until" >
   | < NUM: (["0"-"9"])+ >
   | < ID: ["a"-"z","A"-"Z"] ( ["a"-"z", "A"-"Z", "0"-"9"] )*>
   | < ATRIB: ":=">
@@ -39,7 +37,25 @@ void Programa() :
 {
 }//variáveis locais
 {
-   <ID> <ATRIB> <NUM> <EOF>
+    SequenciaComandos() <EOF>
+}
+
+private void SequenciaComandos():
+{}
+{
+    Instrucao() (";" Instrucao())*
+}
+
+private void Instrucao():
+{}
+{
+    <ID> <ATRIB> Expressao() | ComandoRepeat()
+}
+
+private void ComandoRepeat():
+{}
+{
+    <REPEAT> SequenciaComandos() <UNTIL> Expressao()
 }
 
 void Expressao():
