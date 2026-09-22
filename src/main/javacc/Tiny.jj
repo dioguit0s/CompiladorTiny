@@ -37,7 +37,25 @@ void Programa() :
 {
 }//variáveis locais
 {
-   <ID> <ATRIB> <NUM> <EOF>
+    SequenciaComandos() <EOF>
+}
+
+private void SequenciaComandos():
+{}
+{
+    Instrucao() (";" Instrucao())*
+}
+
+private void Instrucao():
+{}
+{
+    <ID> <ATRIB> Expressao() | ComandoRepeat()
+}
+
+private void ComandoRepeat():
+{}
+{
+    <REPEAT> SequenciaComandos() <UNTIL> Expressao()
 }
 
 void Expressao():
