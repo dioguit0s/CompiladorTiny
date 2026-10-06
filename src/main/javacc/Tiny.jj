@@ -31,6 +31,10 @@ TOKEN : {
   | < DIV: "/">
   | <ABREPARE: "(">
   | <FECHAPARE: ")">
+  | < MENOR: "<">
+  | < MAIOR: ">">
+  | < IGUAL: "=">
+  | < PONTOVIRGULA: ";">
 }
 
 void Programa() :
@@ -43,13 +47,17 @@ void Programa() :
 private void SequenciaComandos():
 {}
 {
-    Instrucao() (";" Instrucao())*
+    Instrucao() (<PONTOVIRGULA> Instrucao())*
 }
 
 private void Instrucao():
 {}
 {
-    <ID> <ATRIB> Expressao() | ComandoRepeat()
+    <ID> <ATRIB> Expressao()
+  | ComandoRepeat()
+  | ComandoIf()
+  | ComandoRead()
+  | ComandoWrite()
 }
 
 private void ComandoRepeat():
@@ -58,7 +66,32 @@ private void ComandoRepeat():
     <REPEAT> SequenciaComandos() <UNTIL> Expressao()
 }
 
+private void ComandoIf():
+{}
+{
+    <IF> Expressao() <THEN> SequenciaComandos() [ <ELSE> SequenciaComandos() ] <END>
+}
+
+private void ComandoRead():
+{}
+{
+    <READ> <ID>
+}
+
+private void ComandoWrite():
+{}
+{
+    <WRITE> Expressao()
+}
+
 void Expressao():
+{}
+{
+  ExpressaoSimples()
+  [ (<MENOR> | <MAIOR> | <IGUAL>) ExpressaoSimples() ]
+}
+
+void ExpressaoSimples():
 {}
 {
   Termo()

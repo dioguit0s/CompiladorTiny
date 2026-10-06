@@ -46,6 +46,14 @@ public interface TinyConstants {
   int ABREPARE = 21;
   /** RegularExpression Id. */
   int FECHAPARE = 22;
+  /** RegularExpression Id. */
+  int MENOR = 23;
+  /** RegularExpression Id. */
+  int MAIOR = 24;
+  /** RegularExpression Id. */
+  int IGUAL = 25;
+  /** RegularExpression Id. */
+  int PONTOVIRGULA = 26;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -75,6 +83,9 @@ public interface TinyConstants {
     "\"/\"",
     "\"(\"",
     "\")\"",
+    "\"<\"",
+    "\">\"",
+    "\"=\"",
     "\";\"",
   };
 

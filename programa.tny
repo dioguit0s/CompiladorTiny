@@ -1,0 +1,20 @@
+{Exemplo de programa Tiny}
+
+read a;
+read b;
+x := a;
+y := a+b;
+write y;
+
+repeat {Estrutura de repetição}
+x := x - 1;
+if x > 5 then {Estrutura de decisão}
+y := y + 1
+else
+y := y - 1
+end
+until x < 3;
+
+if y = 7 then
+z := 0
+end

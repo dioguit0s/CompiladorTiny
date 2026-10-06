@@ -13,14 +13,14 @@ public class Tiny implements TinyConstants {
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case 23:
+      case PONTOVIRGULA:
         ;
         break;
       default:
         jj_la1[0] = jj_gen;
         break label_1;
       }
-      jj_consume_token(23);
+      jj_consume_token(PONTOVIRGULA);
       Instrucao();
     }
   }
@@ -34,6 +34,15 @@ public class Tiny implements TinyConstants {
       break;
     case REPEAT:
       ComandoRepeat();
+      break;
+    case IF:
+      ComandoIf();
+      break;
+    case READ:
+      ComandoRead();
+      break;
+    case WRITE:
+      ComandoWrite();
       break;
     default:
       jj_la1[1] = jj_gen;
@@ -49,7 +58,63 @@ public class Tiny implements TinyConstants {
     Expressao();
   }
 
+  final private void ComandoIf() throws ParseException {
+    jj_consume_token(IF);
+    Expressao();
+    jj_consume_token(THEN);
+    SequenciaComandos();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ELSE:
+      jj_consume_token(ELSE);
+      SequenciaComandos();
+      break;
+    default:
+      jj_la1[2] = jj_gen;
+      ;
+    }
+    jj_consume_token(END);
+  }
+
+  final private void ComandoRead() throws ParseException {
+    jj_consume_token(READ);
+    jj_consume_token(ID);
+  }
+
+  final private void ComandoWrite() throws ParseException {
+    jj_consume_token(WRITE);
+    Expressao();
+  }
+
   final public void Expressao() throws ParseException {
+    ExpressaoSimples();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case MENOR:
+    case MAIOR:
+    case IGUAL:
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case MENOR:
+        jj_consume_token(MENOR);
+        break;
+      case MAIOR:
+        jj_consume_token(MAIOR);
+        break;
+      case IGUAL:
+        jj_consume_token(IGUAL);
+        break;
+      default:
+        jj_la1[3] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      ExpressaoSimples();
+      break;
+    default:
+      jj_la1[4] = jj_gen;
+      ;
+    }
+  }
+
+  final public void ExpressaoSimples() throws ParseException {
     Termo();
     label_2:
     while (true) {
@@ -59,7 +124,7 @@ public class Tiny implements TinyConstants {
         ;
         break;
       default:
-        jj_la1[2] = jj_gen;
+        jj_la1[5] = jj_gen;
         break label_2;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -70,7 +135,7 @@ public class Tiny implements TinyConstants {
         jj_consume_token(SUB);
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[6] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -88,7 +153,7 @@ public class Tiny implements TinyConstants {
         ;
         break;
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[7] = jj_gen;
         break label_3;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -99,7 +164,7 @@ public class Tiny implements TinyConstants {
         jj_consume_token(DIV);
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -121,7 +186,7 @@ public class Tiny implements TinyConstants {
       jj_consume_token(FECHAPARE);
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[9] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -136,13 +201,13 @@ public class Tiny implements TinyConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[7];
+  final private int[] jj_la1 = new int[10];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x800000,0x8400,0x60000,0x60000,0x180000,0x180000,0x20c000,};
+      jj_la1_0 = new int[] {0x4000000,0xb440,0x100,0x3800000,0x3800000,0x60000,0x60000,0x180000,0x180000,0x20c000,};
    }
 
   /** Constructor with InputStream. */
@@ -156,7 +221,7 @@ public class Tiny implements TinyConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -170,7 +235,7 @@ public class Tiny implements TinyConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -180,7 +245,7 @@ public class Tiny implements TinyConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -190,7 +255,7 @@ public class Tiny implements TinyConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -199,7 +264,7 @@ public class Tiny implements TinyConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -208,7 +273,7 @@ public class Tiny implements TinyConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -259,12 +324,12 @@ public class Tiny implements TinyConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[24];
+    boolean[] la1tokens = new boolean[27];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 10; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -273,7 +338,7 @@ public class Tiny implements TinyConstants {
         }
       }
     }
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 27; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
