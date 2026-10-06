@@ -24,6 +24,13 @@ public class ExemploCompiladorTiny {
             System.out.println("\n--- Resultado da Análise Léxica ---");
             do {
                 t = lexer.getNextToken();
+                Token c = t.specialToken;
+                while (c != null && c.specialToken != null) {
+                    c = c.specialToken;
+                }
+                for (; c != null; c = c.next) {
+                    System.out.println("Comentário: '" + c.image + "' -> Ignorado");
+                }
                 if (t.kind != TinyConstants.EOF) {
                     System.out.println("Lido: '" + t.image + "' -> Reconhecido como: " + TinyConstants.tokenImage[t.kind]);
                 }

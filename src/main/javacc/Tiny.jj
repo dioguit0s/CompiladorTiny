@@ -11,7 +11,9 @@ public class Tiny {
 
 PARSER_END(Tiny)
 
-SKIP : { " " | "\t" | "\n" | "\r" | < COMMENT: "{" (~["}"])* "}" >}
+SKIP : { " " | "\t" | "\n" | "\r" }
+
+SPECIAL_TOKEN : { < COMMENT: "{" (~["}"])* "}" > }
 
 TOKEN : {
     < IF: "if" >
