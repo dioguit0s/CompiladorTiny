@@ -1,0 +1,4 @@
+Aceito
+Linha 3: 'w' não foi declarada.
+Linha 4: 'z' não tem valor.
+Linha 8: 'w' não foi declarada.

@@ -1,0 +1,4 @@
+Aceito
+Linha 1, coluna 8: 'a' já foi declarada.
+Linha 2, coluna 6: 'b' não foi declarada.
+Linha 3, coluna 7: 'a' não tem valor.

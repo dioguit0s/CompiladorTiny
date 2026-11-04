@@ -1,0 +1,5 @@
+Aceito
+Linha 2, coluna 5: 'n' já foi declarada.
+Linha 6, coluna 14: 'i' não tem valor.
+Linha 7, coluna 6: 'i' não tem valor.
+Linha 9, coluna 7: 'total' não foi declarada.

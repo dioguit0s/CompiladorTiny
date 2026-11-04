@@ -1,0 +1,9 @@
+int n, soma, i;
+int n;
+read n;
+soma:=0;
+repeat
+  soma:=soma+i;
+  i:=i+1
+until i>n;
+write total

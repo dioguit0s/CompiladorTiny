@@ -7,21 +7,38 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExemploCompiladorTiny {
 
     public static void main(String[] args) throws IOException {
-        Path arquivo = Path.of(args.length > 0 ? args[0] : "programa.tny");
+        List<String> argumentos = new ArrayList<>(List.of(args));
+        boolean mostrarTokens = argumentos.remove("--tokens");
+        Path arquivo = Path.of(argumentos.isEmpty() ? "programa.tny" : argumentos.get(0));
         String entrada = Files.readString(arquivo, StandardCharsets.UTF_8);
 
-        System.out.println("Arquivo analisado: " + arquivo);
+        if (mostrarTokens && !listarTokens(entrada)) {
+            return;
+        }
 
-        SimpleCharStream stream = new SimpleCharStream(new StringReader(entrada));
-        TinyTokenManager lexer = new TinyTokenManager(stream);
-        Token t;
-
+        Tiny parser = new Tiny(new StringReader(entrada));
         try {
-            System.out.println("\n--- Resultado da Análise Léxica ---");
+            parser.Programa();
+            System.out.println("Aceito");
+            for (String erro : parser.getErros()) {
+                System.out.println(erro);
+            }
+        } catch (ParseException | TokenMgrError erro) {
+            System.out.println("Não aceito: " + erro.getMessage());
+        }
+    }
+
+    /** Lista os tokens e comentários; retorna false se houver erro léxico. */
+    private static boolean listarTokens(String entrada) {
+        TinyTokenManager lexer = new TinyTokenManager(new SimpleCharStream(new StringReader(entrada)));
+        try {
+            Token t;
             do {
                 t = lexer.getNextToken();
                 Token c = t.specialToken;
@@ -35,22 +52,10 @@ public class ExemploCompiladorTiny {
                     System.out.println("Lido: '" + t.image + "' -> Reconhecido como: " + TinyConstants.tokenImage[t.kind]);
                 }
             } while (t.kind != TinyConstants.EOF);
-
-            System.out.println("\nExpressão Aceita! (Nenhum erro léxico)");
-
-        } catch(TokenMgrError erro) {
-            System.out.println("\nExpressão Não aceita!: " + erro.getMessage());
-            return;
-        }
-
-        try {
-            System.out.println("\n--- Resultado da Análise Sintática ---");
-            Tiny parser = new Tiny(new StringReader(entrada));
-            parser.Programa();
-            System.out.println("Programa Aceito! (Nenhum erro sintático)");
-
-        } catch(ParseException | TokenMgrError erro) {
-            System.out.println("Programa Não aceito!: " + erro.getMessage());
+            return true;
+        } catch (TokenMgrError erro) {
+            System.out.println("Não aceito: " + erro.getMessage());
+            return false;
         }
     }
 }

@@ -13,47 +13,51 @@ public interface TinyConstants {
   /** RegularExpression Id. */
   int COMMENT = 5;
   /** RegularExpression Id. */
-  int IF = 6;
+  int INT = 6;
   /** RegularExpression Id. */
-  int THEN = 7;
+  int IF = 7;
   /** RegularExpression Id. */
-  int ELSE = 8;
+  int THEN = 8;
   /** RegularExpression Id. */
-  int END = 9;
+  int ELSE = 9;
   /** RegularExpression Id. */
-  int REPEAT = 10;
+  int END = 10;
   /** RegularExpression Id. */
-  int UNTIL = 11;
+  int REPEAT = 11;
   /** RegularExpression Id. */
-  int READ = 12;
+  int UNTIL = 12;
   /** RegularExpression Id. */
-  int WRITE = 13;
+  int READ = 13;
   /** RegularExpression Id. */
-  int NUM = 14;
+  int WRITE = 14;
   /** RegularExpression Id. */
-  int ID = 15;
+  int NUM = 15;
   /** RegularExpression Id. */
-  int ATRIB = 16;
+  int ID = 16;
   /** RegularExpression Id. */
-  int SOM = 17;
+  int ATRIB = 17;
   /** RegularExpression Id. */
-  int SUB = 18;
+  int SOM = 18;
   /** RegularExpression Id. */
-  int MULT = 19;
+  int SUB = 19;
   /** RegularExpression Id. */
-  int DIV = 20;
+  int MULT = 20;
   /** RegularExpression Id. */
-  int ABREPARE = 21;
+  int DIV = 21;
   /** RegularExpression Id. */
-  int FECHAPARE = 22;
+  int ABREPARE = 22;
   /** RegularExpression Id. */
-  int MENOR = 23;
+  int FECHAPARE = 23;
   /** RegularExpression Id. */
-  int MAIOR = 24;
+  int MENOR = 24;
   /** RegularExpression Id. */
-  int IGUAL = 25;
+  int MAIOR = 25;
   /** RegularExpression Id. */
-  int PONTOVIRGULA = 26;
+  int IGUAL = 26;
+  /** RegularExpression Id. */
+  int VIRGULA = 27;
+  /** RegularExpression Id. */
+  int PONTOVIRGULA = 28;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -66,6 +70,7 @@ public interface TinyConstants {
     "\"\\n\"",
     "\"\\r\"",
     "<COMMENT>",
+    "\"int\"",
     "\"if\"",
     "\"then\"",
     "\"else\"",
@@ -86,6 +91,7 @@ public interface TinyConstants {
     "\"<\"",
     "\">\"",
     "\"=\"",
+    "\",\"",
     "\";\"",
   };
 

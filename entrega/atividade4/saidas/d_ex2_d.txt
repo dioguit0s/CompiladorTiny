@@ -1,0 +1,2 @@
+Aceito
+Linha 2, coluna 6: 'b' não foi declarada.

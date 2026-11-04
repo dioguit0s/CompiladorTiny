@@ -1,0 +1,5 @@
+Aceito
+Linha 2: 'n' já foi declarada.
+Linha 6: 'i' não tem valor.
+Linha 7: 'i' não tem valor.
+Linha 9: 'total' não foi declarada.

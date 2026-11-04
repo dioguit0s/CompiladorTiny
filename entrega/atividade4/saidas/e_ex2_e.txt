@@ -1,0 +1,2 @@
+Aceito
+Linha 3, coluna 7: 'c' não foi declarada.

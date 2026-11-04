@@ -6,7 +6,41 @@ PARSER_BEGIN(Tiny)
 
 package com.mycompany.tiny.compiler;
 
+import java.util.*;
+
 public class Tiny {
+
+    private List<String> erros = new ArrayList<String>();
+
+    private Map<String,Boolean> tabela = new HashMap<String,Boolean>();
+
+    public List<String> getErros() {
+        return erros;
+    }
+
+    public void declarar(Token id) {
+        if (tabela.containsKey(id.image)) {
+            erros.add("Linha " + id.beginLine + ", coluna " + id.beginColumn + ": '" + id.image + "' já foi declarada.");
+        } else {
+            tabela.put(id.image, false);
+        }
+    }
+
+    public void definir(Token id) {
+        if (!tabela.containsKey(id.image)) {
+            erros.add("Linha " + id.beginLine + ", coluna " + id.beginColumn + ": '" + id.image + "' não foi declarada.");
+        } else {
+            tabela.put(id.image, true);
+        }
+    }
+
+    public void usar(Token id) {
+        if (!tabela.containsKey(id.image)) {
+            erros.add("Linha " + id.beginLine + ", coluna " + id.beginColumn + ": '" + id.image + "' não foi declarada.");
+        } else if (!tabela.get(id.image)) {
+            erros.add("Linha " + id.beginLine + ", coluna " + id.beginColumn + ": '" + id.image + "' não tem valor.");
+        }
+    }
 }
 
 PARSER_END(Tiny)
@@ -16,7 +50,8 @@ SKIP : { " " | "\t" | "\n" | "\r" }
 SPECIAL_TOKEN : { < COMMENT: "{" (~["}"])* "}" > }
 
 TOKEN : {
-    < IF: "if" >
+    < INT: "int" >
+  | < IF: "if" >
   | < THEN: "then" >
   | < ELSE: "else" >
   | < END: "end" >
@@ -24,26 +59,32 @@ TOKEN : {
   | < UNTIL: "until" >
   | < READ: "read" >
   | < WRITE: "write" >
-  | < NUM: (["0"-"9"])+ >
+  | < NUM: (["0"-"9"])+ | (["0"-"9"])+ "." (["0"-"9"])+ >
   | < ID: ["a"-"z","A"-"Z"] ( ["a"-"z", "A"-"Z", "0"-"9"] )*>
   | < ATRIB: ":=">
   | < SOM: "+">
   | < SUB: "-">
   | < MULT: "*">
   | < DIV: "/">
-  | <ABREPARE: "(">
-  | <FECHAPARE: ")">
+  | < ABREPARE: "(">
+  | < FECHAPARE: ")">
   | < MENOR: "<">
   | < MAIOR: ">">
   | < IGUAL: "=">
+  | < VIRGULA: ",">
   | < PONTOVIRGULA: ";">
 }
 
 void Programa() :
+{}
 {
-}//variáveis locais
+    (Declaracao())* SequenciaComandos() <EOF>
+}
+
+private void Declaracao():
+{Token id;}
 {
-    SequenciaComandos() <EOF>
+    <INT> id=<ID> {declarar(id);} (<VIRGULA> id=<ID> {declarar(id);})* <PONTOVIRGULA>
 }
 
 private void SequenciaComandos():
@@ -55,29 +96,43 @@ private void SequenciaComandos():
 private void Instrucao():
 {}
 {
-    <ID> <ATRIB> Expressao()
+    Atribuicao()
   | ComandoRepeat()
   | ComandoIf()
   | ComandoRead()
   | ComandoWrite()
 }
 
+private void Atribuicao():
+{Token id;}
+{
+    id=<ID> <ATRIB> Expressao()
+    {definir(id);}
+}
+
 private void ComandoRepeat():
 {}
 {
-    <REPEAT> SequenciaComandos() <UNTIL> Expressao()
+    <REPEAT> SequenciaComandos() <UNTIL> Comparacao()
 }
 
 private void ComandoIf():
 {}
 {
-    <IF> Expressao() <THEN> SequenciaComandos() [ <ELSE> SequenciaComandos() ] <END>
+    <IF> Comparacao() <THEN> SequenciaComandos() [ <ELSE> SequenciaComandos() ] <END>
+}
+
+private void Comparacao():
+{}
+{
+    Expressao() (<MENOR> | <MAIOR> | <IGUAL>) Expressao()
 }
 
 private void ComandoRead():
-{}
+{Token id;}
 {
-    <READ> <ID>
+    <READ> id=<ID>
+    {definir(id);}
 }
 
 private void ComandoWrite():
@@ -86,29 +141,24 @@ private void ComandoWrite():
     <WRITE> Expressao()
 }
 
-void Expressao():
+private void Expressao():
 {}
 {
-  ExpressaoSimples()
-  [ (<MENOR> | <MAIOR> | <IGUAL>) ExpressaoSimples() ]
+    Termo()
+    ((<SOM> | <SUB>) Termo())*
 }
 
-void ExpressaoSimples():
+private void Termo():
 {}
 {
-  Termo()
-  ((<SOM> | <SUB>) Termo())*
+    Fator()
+    ((<MULT> | <DIV>) Fator())*
 }
 
-void Termo():
-{}
+private void Fator():
+{Token id;}
 {
-  Fator()
-  ((<MULT> | <DIV>) Fator())*
-}
-
-void Fator():
-{}
-{
-  <ID> | <NUM>|<ABREPARE> Expressao()<FECHAPARE>
+    id=<ID> {usar(id);}
+  | <NUM>
+  | <ABREPARE> Expressao() <FECHAPARE>
 }

@@ -1,0 +1,8 @@
+int x, y, z;
+read x;
+y := x + w;
+z := y + z;
+if x > y then
+  write z
+end;
+w := 1

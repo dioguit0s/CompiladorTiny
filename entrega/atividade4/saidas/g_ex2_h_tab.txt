@@ -1,0 +1,3 @@
+Aceito
+Linha 2, coluna 17: 'b' não foi declarada.
+Linha 3, coluna 9: 'c' não foi declarada.

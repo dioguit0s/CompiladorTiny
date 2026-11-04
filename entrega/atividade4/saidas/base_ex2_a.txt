@@ -1,0 +1,4 @@
+Aceito
+Linha 1: 'a' já foi declarada.
+Linha 2: 'b' não foi declarada.
+Linha 3: 'a' não tem valor.
